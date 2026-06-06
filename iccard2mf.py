@@ -321,10 +321,8 @@ def open_manual_entry_modal(is_first: bool) -> None:
     helium, _, _ = _import_browser_deps()
     if is_first:
         helium.click(helium.Button("手入力"))
-        helium.wait_until(helium.S("#user_asset_act_new").exists, timeout_secs=10)
-    else:
-        helium.click(helium.S("#confirmation-button"))
-        time.sleep(0.5)
+    # 2件目以降は直前の continue_or_close が「続けて入力する」を押済み
+    helium.wait_until(helium.S("#user_asset_act_new").exists, timeout_secs=10)
 
 
 def fill_record(record: ICRecord, account_name: str) -> None:
@@ -354,8 +352,10 @@ def save_and_wait() -> None:
 def continue_or_close(has_more: bool) -> None:
     helium, _, _ = _import_browser_deps()
     if has_more:
+        helium.wait_until(helium.S("#confirmation-button").exists, timeout_secs=10)
         helium.click(helium.S("#confirmation-button"))
-        time.sleep(0.5)
+        helium.wait_until(helium.S("#submit-button").exists, timeout_secs=10)
+        time.sleep(0.3)
     else:
         helium.click(helium.S("#cancel-button"))
         time.sleep(0.3)
