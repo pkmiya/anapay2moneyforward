@@ -19,7 +19,7 @@ from google.auth.exceptions import RefreshError
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 
-import quickstart
+from ..scripts.gmail_auth import quickstart
 
 SCOPES = [
     "https://www.googleapis.com/auth/gmail.readonly",
@@ -103,7 +103,8 @@ def get_anapay_info(after: str) -> list[ANAPay]:
     messages = results.get("messages", [])
     for message in reversed(messages):
         # https://developers.google.com/gmail/api/reference/rest/v1/users.messages/get
-        res = service.users().messages().get(userId="me", id=message["id"]).execute()
+        res = service.users().messages().get(
+            userId="me", id=message["id"]).execute()
         ana_pay = get_mail_info(res)
         if ana_pay:
             ana_pay_list.append(ana_pay)
@@ -141,7 +142,8 @@ def gmail2spredsheet(worksheet):
     for ana_pay in ana_pay_list:
         # メールの日付が存在しない場合はレコードを追加
         if ana_pay.email_date not in email_date_set:
-            worksheet.append_row(ana_pay.values(), value_input_option="USER_ENTERED")
+            worksheet.append_row(
+                ana_pay.values(), value_input_option="USER_ENTERED")
             count += 1
             logging.info("Record added to spreadsheet: %s", ana_pay.values())
     logging.info("Records added to spreadsheet: %d", count)
@@ -183,11 +185,13 @@ def add_mf_record(dt: datetime, amount: int, store: str, store_info: dict | None
 
     if store_info:
         category = helium.find_all(helium.Link("未分類"))[0]
-        l_category = helium.find_all(helium.S("#js-large-category-selected"))[0]
+        l_category = helium.find_all(
+            helium.S("#js-large-category-selected"))[0]
         helium.click(l_category)
         helium.click(store_info["大項目"])
 
-        m_category = helium.find_all(helium.S("#js-middle-category-selected"))[0]
+        m_category = helium.find_all(
+            helium.S("#js-middle-category-selected"))[0]
         helium.click(m_category)
         helium.click(store_info["中項目"])
 
@@ -196,7 +200,8 @@ def add_mf_record(dt: datetime, amount: int, store: str, store_info: dict | None
         helium.write(store, into="内容をご入力下さい(任意)")
 
     helium.click("保存する")
-    logging.info(f"Record added to moneyforward: {dt:%Y/%m/%d}, {amount}, {store}")
+    logging.info(
+        f"Record added to moneyforward: {dt:%Y/%m/%d}, {amount}, {store}")
 
     helium.wait_until(helium.Button("続けて入力する").exists)
     helium.click("続けて入力する")
@@ -244,7 +249,8 @@ def main():
     sheet = gc.open_by_key(SHEET_ID)
     anapay_sheet = sheet.worksheet("ANAPay")
     store_sheet = sheet.worksheet("ANAPayStore")
-    store_dict = {store["store"]: store for store in store_sheet.get_all_records()}
+    store_dict = {store["store"]
+        : store for store in store_sheet.get_all_records()}
 
     gmail2spredsheet(anapay_sheet)
     spreadsheet2mf(anapay_sheet, store_dict)
