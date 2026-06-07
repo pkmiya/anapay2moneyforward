@@ -1,0 +1,491 @@
+<div
+  aria-hidden="false"
+  aria-labelledby="modal_asset_new_label"
+  class="modal fade hide in"
+  id="user_asset_act_new"
+  role="dialog"
+  style="top: 5%; width: 600px; min-height: 550px; display: block"
+>
+  <form
+    id="form-user-asset-act"
+    class="form-horizontal"
+    action="/cf/create"
+    accept-charset="UTF-8"
+    data-remote="true"
+    method="post"
+    data-gtm-form-interact-id="6"
+  >
+    <input
+      type="hidden"
+      name="authenticity_token"
+      value="vraVNeFX1onzBFumiQ2iC9lSD7CcT247DwpiJipnzQQbCiWm_W4ynQ1eN5xkYObfczkRY4-0AFsEYqO1bYFbfQ"
+    /><input
+      value="0"
+      type="hidden"
+      name="user_asset_act[is_transfer]"
+      id="user_asset_act_is_transfer"
+    />
+    <input
+      value="1"
+      id="user_asset_act_is_income_modal"
+      type="hidden"
+      name="user_asset_act[is_income]"
+    />
+    <div class="modal-header">
+      <div area-hidden="true" class="close" data-dismiss="modal" type="button">
+        ×
+      </div>
+      <h3>家計簿入力</h3>
+    </div>
+    <div class="modal-body js-cf-edit-container pc" style="max-height: 580px">
+      <ul class="tab-menu">
+        <li id="important">
+          <label class="">
+            <input
+              class="minus-payment active"
+              type="radio"
+              value="2"
+              checked="checked"
+              name="user_asset_act[payment]"
+              id="user_asset_act_payment_2"
+              style="opacity: 0"
+            />
+            支出
+          </label>
+        </li>
+        <li id="info">
+          <label class="active">
+            <input
+              class="plus-payment"
+              type="radio"
+              value="2"
+              name="user_asset_act[payment]"
+              id="user_asset_act_payment_2"
+              style="opacity: 0"
+              data-gtm-form-interact-field-id="6"
+            />
+            収入
+          </label>
+        </li>
+        <li id="success">
+          <label class="">
+            <input
+              class="transfer-payment"
+              type="radio"
+              value="2"
+              name="user_asset_act[payment]"
+              id="user_asset_act_payment_2"
+              style="opacity: 0"
+            />
+            振替
+          </label>
+        </li>
+      </ul>
+      <div class="info-box" id="select-detail-area">
+        <div class="select-partner" id="select-partner" style="display: none">
+          <div class="control-group">
+            <div class="left-column">
+              振替場所
+              <span> ※口座間のお金の振替元と、振替先を選択してください </span>
+            </div>
+            <div class="right-column">
+              <span id="target-span">
+                振替元：
+                <div id="sub_account-from-wrp">
+                  <select
+                    id="user_asset_act_sub_account_id_hash_from"
+                    name="user_asset_act[sub_account_id_hash_from]"
+                  >
+                    <option value="0">なし</option>
+                    <option value="BH0jU4fPrd4yURWBiTo6lOP1NLtSA6famnN3av4YPdU">
+                      SUGOCA (-5,074円)
+                    </option>
+                    <option value="CbjEnh8DkcrJuJxMVyjrAIHMaq9xtmLvH513-Fwzfc8">
+                      PayPay (-10,122円)
+                    </option>
+                    <option value="99-juGc_NqX5XirCki0-o4P8nURQMeonTbtskMBhyC4">
+                      ANA Pay (-245,659円)
+                    </option>
+                    <option value="usrmnyvQzR2pr70DmtVdg5NEKBP8p2usdncZcIMQ6Pk">
+                      エアウォレット (44,636円)
+                    </option>
+                    <option value="_qm04-EDhEbNqL6qbQkRXlYl3UlEH66RPv_XDuJq4Yw">
+                      ワンバンク (380,947円)
+                    </option>
+                  </select>
+                </div>
+              </span>
+              <p class="arrow">
+                <i class="icon-arrow-down"></i>
+              </p>
+              <span id="target-span">
+                振替先：
+                <div id="sub_account-to-wrp">
+                  <select
+                    id="user_asset_act_sub_account_id_hash_to"
+                    name="user_asset_act[sub_account_id_hash_to]"
+                  >
+                    <option value="0">なし</option>
+                    <option value="BH0jU4fPrd4yURWBiTo6lOP1NLtSA6famnN3av4YPdU">
+                      SUGOCA (-5,074円)
+                    </option>
+                    <option value="CbjEnh8DkcrJuJxMVyjrAIHMaq9xtmLvH513-Fwzfc8">
+                      PayPay (-10,122円)
+                    </option>
+                    <option value="99-juGc_NqX5XirCki0-o4P8nURQMeonTbtskMBhyC4">
+                      ANA Pay (-245,659円)
+                    </option>
+                    <option value="usrmnyvQzR2pr70DmtVdg5NEKBP8p2usdncZcIMQ6Pk">
+                      エアウォレット (44,636円)
+                    </option>
+                    <option value="_qm04-EDhEbNqL6qbQkRXlYl3UlEH66RPv_XDuJq4Yw">
+                      ワンバンク (380,947円)
+                    </option>
+                  </select>
+                </div>
+              </span>
+              <p
+                class="attention"
+                title="すでに登録済の金融機関のATM引き出しや入出金等は、自動取得で反映されますので、振替の登録は必要ありません。選択できる口座は、ご自分で登録された「財布（現金管理）」と「その他保有資産」、「未対応金融機関」となります。"
+              >
+                <i class="icon-info-sign"></i>
+                ご注意
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="left-column">日付</div>
+          <div class="right-column">
+            <input
+              id="updated-at"
+              style="width: 110px; vertical-align: top"
+              title="クリックして編集"
+              type="text"
+              name="user_asset_act[updated_at]"
+            />
+            <div id="recurring_flag-box">
+              <label for="user_asset_act_recurring_flag">
+                <input
+                  name="user_asset_act[recurring_flag]"
+                  type="hidden"
+                  value="0"
+                /><input
+                  type="checkbox"
+                  value="1"
+                  name="user_asset_act[recurring_flag]"
+                  id="user_asset_act_recurring_flag"
+                />
+                繰り返し入力
+                <input type="hidden" name="month" id="month" value="" />
+              </label>
+              <div id="js-recurring-setting-area" style="display: none">
+                <label for="recurring_frequency">
+                  繰り返し：
+                  <select
+                    name="user_asset_act[recurring_frequency]"
+                    id="user_asset_act_recurring_frequency"
+                  >
+                    <option value="daily">毎日</option>
+                    <option value="weekly">毎週</option>
+                    <option value="monthly">毎月</option>
+                    <option value="month-end">月末</option>
+                  </select>
+                </label>
+                <label for="user_asset_act_recurring_limit_off_flag">
+                  終了日：
+                  <input
+                    name="user_asset_act[recurring_limit_off_flag]"
+                    type="hidden"
+                    value="0"
+                  /><input
+                    type="checkbox"
+                    value="1"
+                    checked="checked"
+                    name="user_asset_act[recurring_limit_off_flag]"
+                    id="user_asset_act_recurring_limit_off_flag"
+                  />
+                  なし
+                </label>
+                <label>
+                  <input
+                    disabled="disabled"
+                    style="margin-left: 55px"
+                    type="text"
+                    name="user_asset_act[recurring_limit]"
+                    id="user_asset_act_recurring_limit"
+                  />
+                </label>
+                <label>
+                  <input
+                    name="user_asset_act[recurring_rule_only_flag]"
+                    type="hidden"
+                    value="0"
+                  /><input
+                    type="checkbox"
+                    value="1"
+                    name="user_asset_act[recurring_rule_only_flag]"
+                    id="user_asset_act_recurring_rule_only_flag"
+                  />
+                  ルールだけ作成
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="left-column" id="amount-important" style="display: none">
+            支出金額
+            <br />
+            （支出元）
+          </div>
+          <div
+            class="left-column"
+            id="amount-info"
+            style="display: inline-block"
+          >
+            収入金額
+            <br />
+            （入金先）
+          </div>
+          <div class="left-column" id="amount-success" style="display: none">
+            振替金額
+          </div>
+          <div class="right-column">
+            <div class="input-prepend input-append">
+              <span class="add-on plus-minus">+</span>
+              <input
+                id="appendedPrependedInput"
+                style="width: 157px"
+                type="text"
+                name="user_asset_act[amount]"
+              />
+              <span class="add-on">円</span>
+            </div>
+            <div id="sub_account-wrp">
+              <select
+                id="user_asset_act_sub_account_id_hash"
+                name="user_asset_act[sub_account_id_hash]"
+              >
+                <option value="BH0jU4fPrd4yURWBiTo6lOP1NLtSA6famnN3av4YPdU">
+                  SUGOCA (-5,074円)
+                </option>
+                <option value="CbjEnh8DkcrJuJxMVyjrAIHMaq9xtmLvH513-Fwzfc8">
+                  PayPay (-10,122円)
+                </option>
+                <option value="99-juGc_NqX5XirCki0-o4P8nURQMeonTbtskMBhyC4">
+                  ANA Pay (-245,659円)
+                </option>
+                <option value="usrmnyvQzR2pr70DmtVdg5NEKBP8p2usdncZcIMQ6Pk">
+                  エアウォレット (44,636円)
+                </option>
+                <option value="_qm04-EDhEbNqL6qbQkRXlYl3UlEH66RPv_XDuJq4Yw">
+                  ワンバンク (380,947円)
+                </option>
+                <option value="0">なし</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="control-group" id="large_category_group">
+          <div class="left-column">
+            項目
+            <span> ※項目を選択しない場合は、未分類となります。 </span>
+          </div>
+          <div class="right-column">
+            <input
+              class="h_l_ctg"
+              type="hidden"
+              name="user_asset_act[large_category_id]"
+              id="user_asset_act_large_category_id"
+              value=""
+            />
+            <div class="btn-group btn_l_ctg">
+              <a
+                class="btn btn-small dropdown-toggle v_l_ctg btn-danger"
+                data-toggle="dropdown"
+                id="js-large-category-selected"
+                style="width: 200px; height: 20px"
+                >未分類 <span class="caret"></span
+              ></a>
+              <ul
+                class="dropdown-menu main_menu plus"
+                style="top: -24px; left: 220px"
+              >
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="1">収入</a>
+                  <ul class="dropdown-menu sub_menu" id="1">
+                    <span class="js-middle-category-add-area-class-1"></span>
+                    <li>
+                      <a class="m_c_name" id="16827645">払い戻し</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="16827669">奨学金</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="1">給与</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="2">一時所得</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="3">事業・副業</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="4">年金</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="89">配当所得</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="90">不動産所得</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="104">不明な入金</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="5">その他入金</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-1"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_1[name]"
+                          id="middle_category_1_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="1"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_1[large_category_id]"
+                          id="middle_category_1_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middler-_categoryr-_transaction-page"
+                          type="hidden"
+                          name="middle_category_1[transaction_page]"
+                          id="middle_category_1_transaction_page"
+                        />
+                        <input
+                          value="0"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_1[reload_type]"
+                          id="middle_category_1_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="0">未分類</a>
+                  <ul class="dropdown-menu sub_menu" id="0">
+                    <span class="js-middle-category-add-area-class-0"></span>
+                    <li>
+                      <a class="m_c_name" id="0">未分類</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <input
+              class="h_m_ctg"
+              type="hidden"
+              name="user_asset_act[middle_category_id]"
+              id="user_asset_act_middle_category_id"
+              value=""
+            />
+            <div class="btn-group btn_m_ctg" id="target-js-content-field">
+              <a
+                class="btn btn-small dropdown-toggle v_m_ctg"
+                data-toggle="dropdown"
+                id="js-middle-category-selected"
+                style="width: 200px; height: 20px"
+                >未分類 <span class="caret"></span
+              ></a>
+            </div>
+            <input
+              id="js-content-field"
+              placeholder="内容をご入力下さい(任意)"
+              type="text"
+              name="user_asset_act[content]"
+            />
+
+            <!--[if lte IE 9]> (内容をご入力下さい) <![endif]-->
+          </div>
+        </div>
+      </div>
+      <div class="transfer-alert" id="transfer-alert" style="display: none">
+        <div class="alert alert-danger">
+          振替元と振替先のどちらかは必ず選択してください。
+        </div>
+      </div>
+      <div class="transfer-alert" id="transfer-alert-same" style="">
+        <div class="alert alert-danger">同じ口座同士での振替は出来ません。</div>
+      </div>
+      <div class="submit-box">
+        <img
+          style="display: none"
+          id="indicator"
+          src="https://assets.moneyforward.com/assets/loading-27a69b744b2ab154dcfe222f588a1235cf36f59242407c350370346125d392e0.gif"
+        />
+        <input
+          type="submit"
+          name="commit"
+          value="保存する"
+          class="btn btn-success"
+          style="width: 120px; height: 33px; margin-right: 25px"
+          id="submit-button"
+          data-disable-with="保存する"
+        />
+      </div>
+      <div class="control-group confirmation" style="display: none">
+        <div
+          class="alert"
+          id="alert-area"
+          style="
+            display: none;
+            margin-bottom: 0;
+            margin-left: 50px;
+            margin-right: 50px;
+            padding-right: 15px;
+          "
+        ></div>
+      </div>
+      <div class="control-group confirmation" style="display: none">
+        <div class="confirmation-in">
+          <input
+            class="btn btn-success"
+            id="confirmation-button"
+            style="height: 33px; display: none"
+            type="button"
+            value="続けて入力する"
+          />
+          <input
+            class="btn"
+            id="cancel-button"
+            style="height: 33px; display: none"
+            type="button"
+            value="閉じる"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+  <div id="attentionTipBox" style="display: none"></div>
+</div>

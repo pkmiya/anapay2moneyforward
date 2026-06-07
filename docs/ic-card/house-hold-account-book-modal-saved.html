@@ -1,0 +1,1574 @@
+<div
+  aria-hidden="false"
+  aria-labelledby="modal_asset_new_label"
+  class="modal fade hide in"
+  id="user_asset_act_new"
+  role="dialog"
+  style="top: 5%; width: 600px; min-height: 550px; display: block"
+>
+  <form
+    id="form-user-asset-act"
+    class="form-horizontal"
+    action="/cf/create"
+    accept-charset="UTF-8"
+    data-remote="true"
+    method="post"
+    data-gtm-form-interact-id="0"
+  >
+    <input
+      type="hidden"
+      name="authenticity_token"
+      value="i4b_qGm4Cm6YMA7nO6Zi7RkJu3YdUZMCDl6eqkiKXxkuOk87dYHuemZqYt3WyyY5s2KlpQ6q_WIFNl85D2zJYA"
+    /><input
+      value="0"
+      type="hidden"
+      name="user_asset_act[is_transfer]"
+      id="user_asset_act_is_transfer"
+    />
+    <input
+      value="0"
+      id="user_asset_act_is_income_modal"
+      type="hidden"
+      name="user_asset_act[is_income]"
+    />
+    <div class="modal-header">
+      <div area-hidden="true" class="close" data-dismiss="modal" type="button">
+        ×
+      </div>
+      <h3>家計簿入力</h3>
+    </div>
+    <div class="modal-body js-cf-edit-container pc" style="max-height: 580px">
+      <ul class="tab-menu" style="display: none">
+        <li id="important">
+          <label class="active">
+            <input
+              class="minus-payment active"
+              type="radio"
+              value="2"
+              checked="checked"
+              name="user_asset_act[payment]"
+              id="user_asset_act_payment_2"
+              style="opacity: 0"
+              data-gtm-form-interact-field-id="1"
+            />
+            支出
+          </label>
+        </li>
+        <li id="info">
+          <label class="">
+            <input
+              class="plus-payment"
+              type="radio"
+              value="2"
+              name="user_asset_act[payment]"
+              id="user_asset_act_payment_2"
+              style="opacity: 0"
+              data-gtm-form-interact-field-id="2"
+            />
+            収入
+          </label>
+        </li>
+        <li id="success">
+          <label class="">
+            <input
+              class="transfer-payment"
+              type="radio"
+              value="2"
+              name="user_asset_act[payment]"
+              id="user_asset_act_payment_2"
+              style="opacity: 0"
+              data-gtm-form-interact-field-id="0"
+            />
+            振替
+          </label>
+        </li>
+      </ul>
+      <div class="important-box" id="select-detail-area">
+        <div class="select-partner" id="select-partner" style="display: none">
+          <div class="control-group" style="display: none">
+            <div class="left-column">
+              振替場所
+              <span> ※口座間のお金の振替元と、振替先を選択してください </span>
+            </div>
+            <div class="right-column">
+              <span id="target-span">
+                振替元：
+                <div id="sub_account-from-wrp">
+                  <select
+                    id="user_asset_act_sub_account_id_hash_from"
+                    name="user_asset_act[sub_account_id_hash_from]"
+                  >
+                    <option value="0">なし</option>
+                    <option value="BH0jU4fPrd4yURWBiTo6lOP1NLtSA6famnN3av4YPdU">
+                      SUGOCA (138円)
+                    </option>
+                    <option value="CbjEnh8DkcrJuJxMVyjrAIHMaq9xtmLvH513-Fwzfc8">
+                      PayPay (-10,122円)
+                    </option>
+                    <option value="99-juGc_NqX5XirCki0-o4P8nURQMeonTbtskMBhyC4">
+                      ANA Pay (-313,734円)
+                    </option>
+                    <option value="usrmnyvQzR2pr70DmtVdg5NEKBP8p2usdncZcIMQ6Pk">
+                      エアウォレット (44,636円)
+                    </option>
+                    <option value="_qm04-EDhEbNqL6qbQkRXlYl3UlEH66RPv_XDuJq4Yw">
+                      ワンバンク (113,464円)
+                    </option>
+                  </select>
+                </div>
+              </span>
+              <p class="arrow">
+                <i class="icon-arrow-down"></i>
+              </p>
+              <span id="target-span">
+                振替先：
+                <div id="sub_account-to-wrp">
+                  <select
+                    id="user_asset_act_sub_account_id_hash_to"
+                    name="user_asset_act[sub_account_id_hash_to]"
+                  >
+                    <option value="0">なし</option>
+                    <option value="BH0jU4fPrd4yURWBiTo6lOP1NLtSA6famnN3av4YPdU">
+                      SUGOCA (138円)
+                    </option>
+                    <option value="CbjEnh8DkcrJuJxMVyjrAIHMaq9xtmLvH513-Fwzfc8">
+                      PayPay (-10,122円)
+                    </option>
+                    <option value="99-juGc_NqX5XirCki0-o4P8nURQMeonTbtskMBhyC4">
+                      ANA Pay (-313,734円)
+                    </option>
+                    <option value="usrmnyvQzR2pr70DmtVdg5NEKBP8p2usdncZcIMQ6Pk">
+                      エアウォレット (44,636円)
+                    </option>
+                    <option value="_qm04-EDhEbNqL6qbQkRXlYl3UlEH66RPv_XDuJq4Yw">
+                      ワンバンク (113,464円)
+                    </option>
+                  </select>
+                </div>
+              </span>
+              <p
+                class="attention"
+                title="すでに登録済の金融機関のATM引き出しや入出金等は、自動取得で反映されますので、振替の登録は必要ありません。選択できる口座は、ご自分で登録された「財布（現金管理）」と「その他保有資産」、「未対応金融機関」となります。"
+              >
+                <i class="icon-info-sign"></i>
+                ご注意
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="control-group" style="display: none">
+          <div class="left-column">日付</div>
+          <div class="right-column">
+            <input
+              id="updated-at"
+              style="width: 110px; vertical-align: top"
+              title="クリックして編集"
+              type="text"
+              name="user_asset_act[updated_at]"
+            />
+            <div id="recurring_flag-box" style="display: inline-block">
+              <label for="user_asset_act_recurring_flag">
+                <input
+                  name="user_asset_act[recurring_flag]"
+                  type="hidden"
+                  value="0"
+                /><input
+                  type="checkbox"
+                  value="1"
+                  name="user_asset_act[recurring_flag]"
+                  id="user_asset_act_recurring_flag"
+                  data-gtm-form-interact-field-id="3"
+                />
+                繰り返し入力
+                <input type="hidden" name="month" id="month" value="2026-06" />
+              </label>
+              <div id="js-recurring-setting-area" style="display: none">
+                <label for="recurring_frequency">
+                  繰り返し：
+                  <select
+                    name="user_asset_act[recurring_frequency]"
+                    id="user_asset_act_recurring_frequency"
+                  >
+                    <option value="daily">毎日</option>
+                    <option value="weekly">毎週</option>
+                    <option value="monthly">毎月</option>
+                    <option value="month-end">月末</option>
+                  </select>
+                </label>
+                <label for="user_asset_act_recurring_limit_off_flag">
+                  終了日：
+                  <input
+                    name="user_asset_act[recurring_limit_off_flag]"
+                    type="hidden"
+                    value="0"
+                  /><input
+                    type="checkbox"
+                    value="1"
+                    checked="checked"
+                    name="user_asset_act[recurring_limit_off_flag]"
+                    id="user_asset_act_recurring_limit_off_flag"
+                  />
+                  なし
+                </label>
+                <label>
+                  <input
+                    disabled="disabled"
+                    style="margin-left: 55px"
+                    type="text"
+                    name="user_asset_act[recurring_limit]"
+                    id="user_asset_act_recurring_limit"
+                  />
+                </label>
+                <label>
+                  <input
+                    name="user_asset_act[recurring_rule_only_flag]"
+                    type="hidden"
+                    value="0"
+                  /><input
+                    type="checkbox"
+                    value="1"
+                    name="user_asset_act[recurring_rule_only_flag]"
+                    id="user_asset_act_recurring_rule_only_flag"
+                  />
+                  ルールだけ作成
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="control-group" style="display: none">
+          <div
+            class="left-column"
+            id="amount-important"
+            style="display: inline-block"
+          >
+            支出金額
+            <br />
+            （支出元）
+          </div>
+          <div class="left-column" id="amount-info" style="display: none">
+            収入金額
+            <br />
+            （入金先）
+          </div>
+          <div class="left-column" id="amount-success" style="display: none">
+            振替金額
+          </div>
+          <div class="right-column">
+            <div class="input-prepend input-append">
+              <span class="add-on plus-minus">-</span>
+              <input
+                id="appendedPrependedInput"
+                style="width: 157px"
+                type="text"
+                name="user_asset_act[amount]"
+                data-gtm-form-interact-field-id="4"
+              />
+              <span class="add-on">円</span>
+            </div>
+            <div id="sub_account-wrp" style="display: inline-block">
+              <select
+                id="user_asset_act_sub_account_id_hash"
+                name="user_asset_act[sub_account_id_hash]"
+              >
+                <option value="BH0jU4fPrd4yURWBiTo6lOP1NLtSA6famnN3av4YPdU">
+                  SUGOCA (138円)
+                </option>
+                <option value="CbjEnh8DkcrJuJxMVyjrAIHMaq9xtmLvH513-Fwzfc8">
+                  PayPay (-10,122円)
+                </option>
+                <option value="99-juGc_NqX5XirCki0-o4P8nURQMeonTbtskMBhyC4">
+                  ANA Pay (-313,734円)
+                </option>
+                <option value="usrmnyvQzR2pr70DmtVdg5NEKBP8p2usdncZcIMQ6Pk">
+                  エアウォレット (44,636円)
+                </option>
+                <option value="_qm04-EDhEbNqL6qbQkRXlYl3UlEH66RPv_XDuJq4Yw">
+                  ワンバンク (113,464円)
+                </option>
+                <option value="0">なし</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div
+          class="control-group"
+          id="large_category_group"
+          style="display: none"
+        >
+          <div class="left-column">
+            項目
+            <span> ※項目を選択しない場合は、未分類となります。 </span>
+          </div>
+          <div class="right-column">
+            <input
+              class="h_l_ctg"
+              type="hidden"
+              name="user_asset_act[large_category_id]"
+              id="user_asset_act_large_category_id"
+              value=""
+            />
+            <div class="btn-group btn_l_ctg">
+              <a
+                class="btn btn-small dropdown-toggle v_l_ctg btn-danger"
+                data-toggle="dropdown"
+                id="js-large-category-selected"
+                style="width: 200px; height: 20px"
+                >未分類 <span class="caret"></span
+              ></a>
+              <ul
+                class="dropdown-menu main_menu minus"
+                style="top: -216px; left: 220px"
+              >
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="11">食費</a>
+                  <ul class="dropdown-menu sub_menu" id="11">
+                    <span class="js-middle-category-add-area-class-11"></span>
+                    <li>
+                      <a class="m_c_name" id="105">食費</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="41">食料品</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="42">外食</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="91">朝ご飯</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="92">昼ご飯</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="93">夜ご飯</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="43">カフェ</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="83">その他食費</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-11"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_11[name]"
+                          id="middle_category_11_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="11"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_11[large_category_id]"
+                          id="middle_category_11_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_11[transaction_page]"
+                          id="middle_category_11_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_11[reload_type]"
+                          id="middle_category_11_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="10">日用品</a>
+                  <ul class="dropdown-menu sub_menu" id="10">
+                    <span class="js-middle-category-add-area-class-10"></span>
+                    <li>
+                      <a class="m_c_name" id="18229880">ガジェット</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="36">日用品</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="46">子育て用品</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="37">ドラッグストア</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="38">おこづかい</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="40">ペット用品</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="95">タバコ</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="82">その他日用品</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-10"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_10[name]"
+                          id="middle_category_10_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="10"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_10[large_category_id]"
+                          id="middle_category_10_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_10[transaction_page]"
+                          id="middle_category_10_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_10[reload_type]"
+                          id="middle_category_10_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="13">趣味・娯楽</a>
+                  <ul class="dropdown-menu sub_menu" id="13">
+                    <span class="js-middle-category-add-area-class-13"></span>
+                    <li>
+                      <a class="m_c_name" id="49">アウトドア</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="110">ゴルフ</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="50">スポーツ</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="51">映画・音楽・ゲーム</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="52">本</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="53">旅行</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="54">秘密の趣味</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="85">その他趣味・娯楽</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-13"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_13[name]"
+                          id="middle_category_13_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="13"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_13[large_category_id]"
+                          id="middle_category_13_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_13[transaction_page]"
+                          id="middle_category_13_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_13[reload_type]"
+                          id="middle_category_13_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="21">交際費</a>
+                  <ul class="dropdown-menu sub_menu" id="21">
+                    <span class="js-middle-category-add-area-class-21"></span>
+                    <li>
+                      <a class="m_c_name" id="109">交際費</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="44">飲み会</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="65">プレゼント代</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="64">冠婚葬祭</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="100">その他交際費</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-21"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_21[name]"
+                          id="middle_category_21_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="21"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_21[large_category_id]"
+                          id="middle_category_21_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_21[transaction_page]"
+                          id="middle_category_21_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_21[reload_type]"
+                          id="middle_category_21_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="20">交通費</a>
+                  <ul class="dropdown-menu sub_menu" id="20">
+                    <span class="js-middle-category-add-area-class-20"></span>
+                    <li>
+                      <a class="m_c_name" id="17248850">新幹線</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="106">交通費</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="96">電車</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="97">バス</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="99">タクシー</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="98">飛行機</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="39">その他交通費</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-20"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_20[name]"
+                          id="middle_category_20_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="20"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_20[large_category_id]"
+                          id="middle_category_20_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_20[transaction_page]"
+                          id="middle_category_20_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_20[reload_type]"
+                          id="middle_category_20_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="14">衣服・美容</a>
+                  <ul class="dropdown-menu sub_menu" id="14">
+                    <span class="js-middle-category-add-area-class-14"></span>
+                    <li>
+                      <a class="m_c_name" id="55">衣服</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="56">クリーニング</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="57">美容院・理髪</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="58">化粧品</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="59">アクセサリー</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="86">その他衣服・美容</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-14"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_14[name]"
+                          id="middle_category_14_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="14"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_14[large_category_id]"
+                          id="middle_category_14_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_14[transaction_page]"
+                          id="middle_category_14_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_14[reload_type]"
+                          id="middle_category_14_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="15">健康・医療</a>
+                  <ul class="dropdown-menu sub_menu" id="15">
+                    <span class="js-middle-category-add-area-class-15"></span>
+                    <li>
+                      <a class="m_c_name" id="60">フィットネス</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="61">ボディケア</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="62">医療費</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="63">薬</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="87">その他健康・医療</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-15"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_15[name]"
+                          id="middle_category_15_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="15"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_15[large_category_id]"
+                          id="middle_category_15_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_15[transaction_page]"
+                          id="middle_category_15_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_15[reload_type]"
+                          id="middle_category_15_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="7">自動車</a>
+                  <ul class="dropdown-menu sub_menu" id="7">
+                    <span class="js-middle-category-add-area-class-7"></span>
+                    <li>
+                      <a class="m_c_name" id="24">自動車ローン</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="75">道路料金</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="25">ガソリン</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="26">駐車場</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="27">車両</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="28">車検・整備</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="101">自動車保険</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="81">その他自動車</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-7"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_7[name]"
+                          id="middle_category_7_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="7"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_7[large_category_id]"
+                          id="middle_category_7_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_7[transaction_page]"
+                          id="middle_category_7_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_7[reload_type]"
+                          id="middle_category_7_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="12">教養・教育</a>
+                  <ul class="dropdown-menu sub_menu" id="12">
+                    <span class="js-middle-category-add-area-class-12"></span>
+                    <li>
+                      <a class="m_c_name" id="20">書籍</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="21">新聞・雑誌</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="45">習いごと</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="47">学費</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="48">塾</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="84">その他教養・教育</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-12"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_12[name]"
+                          id="middle_category_12_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="12"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_12[large_category_id]"
+                          id="middle_category_12_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_12[transaction_page]"
+                          id="middle_category_12_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_12[reload_type]"
+                          id="middle_category_12_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="16">特別な支出</a>
+                  <ul class="dropdown-menu sub_menu" id="16">
+                    <span class="js-middle-category-add-area-class-16"></span>
+                    <li>
+                      <a class="m_c_name" id="67">家具・家電</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="66">住宅・リフォーム</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="88">その他特別な支出</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-16"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_16[name]"
+                          id="middle_category_16_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="16"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_16[large_category_id]"
+                          id="middle_category_16_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_16[transaction_page]"
+                          id="middle_category_16_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_16[reload_type]"
+                          id="middle_category_16_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="3">現金・カード</a>
+                  <ul class="dropdown-menu sub_menu" id="3">
+                    <span class="js-middle-category-add-area-class-3"></span>
+                    <li>
+                      <a class="m_c_name" id="8">ATM引き出し</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="9">カード引き落とし</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="76">電子マネー</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="103">使途不明金</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="77">その他現金・カード</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-3"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_3[name]"
+                          id="middle_category_3_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="3"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_3[large_category_id]"
+                          id="middle_category_3_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_3[transaction_page]"
+                          id="middle_category_3_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_3[reload_type]"
+                          id="middle_category_3_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="5">水道・光熱費</a>
+                  <ul class="dropdown-menu sub_menu" id="5">
+                    <span class="js-middle-category-add-area-class-5"></span>
+                    <li>
+                      <a class="m_c_name" id="108">光熱費</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="14">電気代</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="15">ガス・灯油代</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="16">水道代</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="79">その他水道・光熱費</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-5"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_5[name]"
+                          id="middle_category_5_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="5"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_5[large_category_id]"
+                          id="middle_category_5_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_5[transaction_page]"
+                          id="middle_category_5_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_5[reload_type]"
+                          id="middle_category_5_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="6">通信費</a>
+                  <ul class="dropdown-menu sub_menu" id="6">
+                    <span class="js-middle-category-add-area-class-6"></span>
+                    <li>
+                      <a class="m_c_name" id="17">携帯電話</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="19">固定電話</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="18">インターネット</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="22">放送視聴料</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="23">情報サービス</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="102">宅配便・運送</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="80">その他通信費</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-6"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_6[name]"
+                          id="middle_category_6_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="6"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_6[large_category_id]"
+                          id="middle_category_6_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_6[transaction_page]"
+                          id="middle_category_6_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_6[reload_type]"
+                          id="middle_category_6_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="4">住宅</a>
+                  <ul class="dropdown-menu sub_menu" id="4">
+                    <span class="js-middle-category-add-area-class-4"></span>
+                    <li>
+                      <a class="m_c_name" id="107">住宅</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="10">家賃・地代</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="11">ローン返済</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="12">管理費・積立金</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="13">地震・火災保険</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="78">その他住宅</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-4"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_4[name]"
+                          id="middle_category_4_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="4"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_4[large_category_id]"
+                          id="middle_category_4_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_4[transaction_page]"
+                          id="middle_category_4_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_4[reload_type]"
+                          id="middle_category_4_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="9">税・社会保障</a>
+                  <ul class="dropdown-menu sub_menu" id="9">
+                    <span class="js-middle-category-add-area-class-9"></span>
+                    <li>
+                      <a class="m_c_name" id="32">所得税・住民税</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="33">年金保険料</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="34">健康保険</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="35">その他税・社会保障</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-9"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_9[name]"
+                          id="middle_category_9_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="9"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_9[large_category_id]"
+                          id="middle_category_9_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_9[transaction_page]"
+                          id="middle_category_9_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_9[reload_type]"
+                          id="middle_category_9_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="8">保険</a>
+                  <ul class="dropdown-menu sub_menu" id="8">
+                    <span class="js-middle-category-add-area-class-8"></span>
+                    <li>
+                      <a class="m_c_name" id="29">生命保険</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="30">医療保険</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="31">その他保険</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-8"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_8[name]"
+                          id="middle_category_8_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="8"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_8[large_category_id]"
+                          id="middle_category_8_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_8[transaction_page]"
+                          id="middle_category_8_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_8[reload_type]"
+                          id="middle_category_8_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="18">その他</a>
+                  <ul class="dropdown-menu sub_menu" id="18">
+                    <span class="js-middle-category-add-area-class-18"></span>
+                    <li>
+                      <a class="m_c_name" id="22097248">建て替え</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="69">仕送り</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="70">事業経費</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="71">事業原価</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="72">事業投資</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="94">寄付金</a>
+                    </li>
+                    <li>
+                      <a class="m_c_name" id="68">雑費</a>
+                    </li>
+                    <li style="margin: 3px 0px 10px 20px">
+                      <div
+                        class="js-new-middle-category-form"
+                        data-url="/middle_categories/create"
+                        id="middle-category-form-18"
+                      >
+                        <input
+                          class="middle_category_add input-medium js-dropdown-off js-middle-category-name"
+                          placeholder="項目を追加"
+                          type="text"
+                          name="middle_category_18[name]"
+                          id="middle_category_18_name"
+                        />
+                        <a
+                          class="anchor-color-off js-middle-category-add-icon"
+                          href="#"
+                          ><i
+                            class="icon-save js-middle-category-add-icon"
+                            style="padding: 0px 10px"
+                          ></i
+                        ></a>
+                        <input
+                          value="18"
+                          class="js-middle-category-large-category-id"
+                          type="hidden"
+                          name="middle_category_18[large_category_id]"
+                          id="middle_category_18_large_category_id"
+                        />
+                        <input
+                          value="true"
+                          class="js-middle-category-transaction-page"
+                          type="hidden"
+                          name="middle_category_18[transaction_page]"
+                          id="middle_category_18_transaction_page"
+                        />
+                        <input
+                          value="1"
+                          class="js-middle-category-reload-type"
+                          type="hidden"
+                          name="middle_category_18[reload_type]"
+                          id="middle_category_18_reload_type"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="l_c_name" id="0">未分類</a>
+                  <ul class="dropdown-menu sub_menu" id="0">
+                    <span class="js-middle-category-add-area-class-0"></span>
+                    <li>
+                      <a class="m_c_name" id="0">未分類</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <input
+              class="h_m_ctg"
+              type="hidden"
+              name="user_asset_act[middle_category_id]"
+              id="user_asset_act_middle_category_id"
+              value=""
+            />
+            <div class="btn-group btn_m_ctg" id="target-js-content-field">
+              <a
+                class="btn btn-small dropdown-toggle v_m_ctg"
+                data-toggle="dropdown"
+                id="js-middle-category-selected"
+                style="width: 200px; height: 20px"
+                >未分類 <span class="caret"></span
+              ></a>
+            </div>
+            <input
+              id="js-content-field"
+              placeholder="内容をご入力下さい(任意)"
+              type="text"
+              name="user_asset_act[content]"
+              data-gtm-form-interact-field-id="5"
+            />
+
+            <!--[if lte IE 9]> (内容をご入力下さい) <![endif]-->
+          </div>
+        </div>
+      </div>
+      <div class="transfer-alert" id="transfer-alert" style="display: none">
+        <div class="alert alert-danger">
+          振替元と振替先のどちらかは必ず選択してください。
+        </div>
+      </div>
+      <div class="transfer-alert" id="transfer-alert-same" style="">
+        <div class="alert alert-danger">同じ口座同士での振替は出来ません。</div>
+      </div>
+      <div class="submit-box" style="display: none">
+        <img
+          style="display: none"
+          id="indicator"
+          src="https://assets.moneyforward.com/assets/loading-27a69b744b2ab154dcfe222f588a1235cf36f59242407c350370346125d392e0.gif"
+        />
+        <input
+          type="submit"
+          name="commit"
+          value="保存する"
+          class="btn btn-success"
+          style="width: 120px; height: 33px; margin-right: 25px"
+          id="submit-button"
+          data-disable-with="保存する"
+        />
+      </div>
+      <div class="control-group confirmation" style="display: block">
+        <div
+          class="alert"
+          id="alert-area"
+          style="
+            margin-bottom: 0px;
+            margin-left: 50px;
+            margin-right: 50px;
+            padding-right: 15px;
+          "
+        >
+          入力を保存しました。
+        </div>
+      </div>
+      <div class="control-group confirmation" style="display: block">
+        <div class="confirmation-in">
+          <input
+            class="btn btn-success"
+            id="confirmation-button"
+            style="height: 33px; display: inline-block"
+            type="button"
+            value="続けて入力する"
+          />
+          <input
+            class="btn"
+            id="cancel-button"
+            style="height: 33px; display: inline-block"
+            type="button"
+            value="閉じる"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+  <div id="attentionTipBox" style="display: none"></div>
+</div>
