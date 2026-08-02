@@ -6,6 +6,7 @@
 |---|---|
 | `anapay2mf_icloud-mail.py` | ANA Pay 利用通知メール（iCloud）→ Google スプレッドシート → MF |
 | `iccard2mf.py` | IC カード利用履歴 CSV → MF |
+| `onebank2mf.py` | ワンバンク利用履歴 CSV → MF |
 | `daily-info_none-to-anapay.py` | MF 日次一覧で保有金融機関「なし」を「ANA Pay」に一括修正 |
 
 ## ディレクトリ構成
@@ -14,6 +15,7 @@
 .
 ├── anapay2mf_icloud-mail.py   # ANA Pay 同期（メイン）
 ├── iccard2mf.py               # IC カード CSV 登録
+├── onebank2mf.py              # ワンバンク CSV 登録
 ├── daily-info_none-to-anapay.py
 ├── scripts/
 │   └── gmail-auth.py          # Google OAuth 初回セットアップ
@@ -49,7 +51,7 @@ cp .env.example .env
 | `ICLOUD_EMAIL`, `ICLOUD_APP_PASSWORD` | iCloud メール（アプリ専用パスワード） |
 | `MF_EMAIL`, `MF_PASSWORD` | マネーフォワード ME ログイン |
 
-IC カード登録で口座名を変える場合は `MF_ACCOUNT_NAME`（デフォルト: `SUGOCA`）も指定可能。詳細は `docs/ic-card/` を参照。
+IC カード登録で口座名を変える場合は `MF_ACCOUNT_NAME`（デフォルト: `SUGOCA`）も指定可能。詳細は `docs/ic-card/` を参照。ワンバンクは `ONEBANK_MF_ACCOUNT_NAME`（デフォルト: `ワンバンク`）。
 
 ### 3. Google スプレッドシート API
 
@@ -104,6 +106,21 @@ python iccard2mf.py path/to/history.csv --limit 50 --account SUGOCA
 ```
 
 CSV 形式・登録済みフラグの仕様は `docs/ic-card/ic-card-csv-to-mf_design-doc.md` を参照。
+
+### ワンバンク CSV 登録
+
+CSV は `docs/onebank-ocr-prompt.md` の形式（IC カードと同一スキーマ）。MF 登録ロジックは `iccard2mf.py` を流用し、支出元・入金先のデフォルトが `ワンバンク` になる点のみ異なる。
+
+```bash
+# 登録待ちレコードの確認（MF には接続しない）
+python onebank2mf.py data/sample_onebank_history.csv --dry-run
+
+# MF に登録（1 回あたり最大 100 件、デフォルト）
+python onebank2mf.py path/to/onebank_history.csv
+
+# 件数・口座名を指定
+python onebank2mf.py path/to/onebank_history.csv --limit 50 --account ワンバンク
+```
 
 ### 保有金融機関「なし」→「ANA Pay」修正
 
