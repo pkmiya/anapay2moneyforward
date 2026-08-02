@@ -311,7 +311,9 @@ def login_mf() -> None:
         raise ValueError("環境変数 MF_EMAIL / MF_PASSWORD を設定してください")
 
     logging.info("Login to moneyforward")
-    helium.start_firefox(MF_LOGIN_URL)
+    # Firefox 未インストール時は Selenium Manager が失敗するため Chrome を使用
+    # （anapay2mf_icloud-mail.py と同じ）
+    helium.start_chrome(MF_LOGIN_URL)
 
     try:
         helium.wait_until(helium.Link("ログイン").exists, timeout_secs=20)
@@ -320,19 +322,19 @@ def login_mf() -> None:
         helium.wait_until(helium.Button("ログイン").exists, timeout_secs=20)
         helium.click(helium.Button("ログイン"))
 
-    helium.wait_until(helium.TextField("Email").exists, timeout_secs=15)
-    helium.write(email_addr, into="Email")
-    helium.click(helium.Button("Sign in"))
+    helium.wait_until(helium.TextField("メールアドレス").exists, timeout_secs=15)
+    helium.write(email_addr, into="メールアドレス")
+    helium.click(helium.Button("ログインする"))
 
     def on_auth_page_or_password_page():
-        return helium.Button("Sign in").exists() or helium.TextField("Password").exists()
+        return helium.Button("ログインする").exists() or helium.TextField("パスワード").exists()
 
     helium.wait_until(on_auth_page_or_password_page, timeout_secs=15)
-    if helium.TextField("Password").exists():
+    if helium.TextField("パスワード").exists():
         logging.info("Password page detected, entering password")
-        helium.write(password, into="Password")
-        helium.click(helium.Button("Sign in"))
-        helium.wait_until(helium.Button("Verify").exists, timeout_secs=15)
+        helium.write(password, into="パスワード")
+        helium.click(helium.Button("ログインする"))
+        helium.wait_until(helium.Button("認証する").exists, timeout_secs=15)
 
     logging.info("ブラウザで認証コードを入力して「認証する」を押してください")
 
@@ -353,14 +355,39 @@ def _ensure_logged_in_ready(timeout_secs: int = 120) -> None:
     )
 
 
-def _select_ana_pay_in_row(driver, row_el, ana_pay_label: str = "ANA Pay") -> bool:
+def _visible_account_select(sub_td):
+    """編集中の保有金融機関 select が可視なら要素を返し、なければ None。"""
+    try:
+        selects = sub_td.find_elements(
+            By.CSS_SELECTOR, "select.v_sub_account_id_hash"
+        )
+        for s in selects:
+            if s.is_displayed():
+                return s
+    except StaleElementReferenceException:
+        return None
+    except Exception:
+        return None
+    return None
+
+
+def _select_ana_pay_in_row(
+    driver,
+    row_el,
+    *,
+    row_id: str | None = None,
+    ana_pay_label: str = "ANA Pay",
+) -> bool:
     """
     1レコード行の「保有金融機関」が「なし」なら ANA Pay を選択して保存する。
     成功時 True。
     """
+    rid = row_id or (row_el.get_attribute("id") or "")
+
     try:
         sub_td = row_el.find_element(By.CSS_SELECTOR, "td.sub_account_id_hash")
     except Exception:
+        logging.warning("sub_account td not found (id=%s)", rid)
         return False
 
     # 表示状態（noform）で現在値を確認
@@ -373,59 +400,119 @@ def _select_ana_pay_in_row(driver, row_el, ana_pay_label: str = "ANA Pay") -> bo
     if current != "なし":
         return False
 
-    # 編集状態へ
-    sub_td.click()
-    time.sleep(0.1)
-
-    try:
-        select_el = sub_td.find_element(
-            By.CSS_SELECTOR, "select.v_sub_account_id_hash")
-    except Exception:
-        # クリック後でも見つからない場合は、もう一度クリックしてみる
+    # 編集状態へ（td 全体より表示中の span / pencil を優先）
+    clicked = False
+    for css in (
+        "div.noform span",
+        "div.noform i.icon-pencil",
+        "div.noform",
+    ):
+        try:
+            el = sub_td.find_element(By.CSS_SELECTOR, css)
+            driver.execute_script(
+                "arguments[0].scrollIntoView({block:'center'});", el)
+            el.click()
+            clicked = True
+            break
+        except Exception:
+            continue
+    if not clicked:
         try:
             sub_td.click()
-            time.sleep(0.1)
-            select_el = sub_td.find_element(
-                By.CSS_SELECTOR, "select.v_sub_account_id_hash")
+            clicked = True
+        except Exception as e:
+            logging.warning("Failed to open editor (id=%s): %s", rid, e)
+            return False
+
+    # select が表示されるまで待つ
+    try:
+        select_el = WebDriverWait(driver, 5).until(
+            lambda d: _visible_account_select(sub_td)
+        )
+    except Exception:
+        try:
+            sub_td.click()
+            select_el = WebDriverWait(driver, 5).until(
+                lambda d: _visible_account_select(sub_td)
+            )
         except Exception:
+            logging.warning("Account select not visible (id=%s)", rid)
             return False
 
     sel = Select(select_el)
     target_value = None
+    target_label = None
     for opt in sel.options:
         label = (opt.text or "").strip()
         if label.startswith(ana_pay_label):
             target_value = opt.get_attribute("value")
+            target_label = label
             break
     if not target_value:
         logging.warning(
-            "ANA Pay option not found in select for row id=%s", row_el.get_attribute("id"))
+            "ANA Pay option not found in select for row id=%s options=%s",
+            rid,
+            [(o.get_attribute("value"), (o.text or "").strip())
+             for o in sel.options],
+        )
         return False
 
+    # Selenium Select + change イベントを明示発火（MF のインライン保存用）
     sel.select_by_value(target_value)
-
-    # MFのインライン編集は change/blur/Enter で保存が走ることがある
+    driver.execute_script(
+        """
+        var el = arguments[0];
+        var val = arguments[1];
+        el.value = val;
+        el.dispatchEvent(new Event('input', {bubbles: true}));
+        el.dispatchEvent(new Event('change', {bubbles: true}));
+        if (window.jQuery) {
+          try { jQuery(el).val(val).trigger('change'); } catch (e) {}
+        }
+        """,
+        select_el,
+        target_value,
+    )
     try:
         select_el.send_keys(Keys.ENTER)
     except Exception:
         pass
-    driver.execute_script("arguments[0].blur();", select_el)
-    # どこか別の場所をクリックして確定させる
     try:
-        driver.find_element(By.TAG_NAME, "body").click()
+        driver.execute_script("arguments[0].blur();", select_el)
     except Exception:
         pass
 
-    # 反映待ち（noform span が ANA Pay になるまで）
-    try:
-        WebDriverWait(driver, 10).until(
-            lambda d: (
-                sub_td.find_element(
-                    By.CSS_SELECTOR, "div.noform span").text.strip().startswith(ana_pay_label)
+    # 反映待ち: DOM 再描画で stale になりやすいので ID で取り直す
+    def saved(_driver):
+        try:
+            row = _driver.find_element(By.ID, rid) if rid else row_el
+            span = row.find_element(
+                By.CSS_SELECTOR, "td.sub_account_id_hash div.noform span"
             )
-        )
+            return (span.text or "").strip().startswith(ana_pay_label)
+        except StaleElementReferenceException:
+            return False
+        except Exception:
+            return False
+
+    try:
+        WebDriverWait(driver, 10).until(saved)
+        logging.info("Saved ANA Pay for id=%s (%s)", rid, target_label)
         return True
     except Exception:
+        try:
+            row = driver.find_element(By.ID, rid) if rid else row_el
+            final = row.find_element(
+                By.CSS_SELECTOR, "td.sub_account_id_hash div.noform span"
+            ).text.strip()
+        except Exception:
+            final = "?"
+        logging.warning(
+            "Save not confirmed for id=%s (display=%r, selected=%r)",
+            rid,
+            final,
+            target_label,
+        )
         return False
 
 
@@ -483,7 +570,7 @@ def replace_none_to_anapay_for_current_month(*, dry_run: bool = False, max_passe
                     row = driver.find_element(By.ID, row_id)
                     driver.execute_script("arguments[0].scrollIntoView({block:'center'});", row)
                     time.sleep(0.05)
-                    ok = _select_ana_pay_in_row(driver, row)
+                    ok = _select_ana_pay_in_row(driver, row, row_id=row_id)
                     break
                 except StaleElementReferenceException:
                     time.sleep(0.1 * (attempt + 1))
