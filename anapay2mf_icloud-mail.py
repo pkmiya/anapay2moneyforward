@@ -16,6 +16,7 @@ import helium
 from dateutil import parser
 from dotenv import load_dotenv
 from gspread.exceptions import APIError
+from selenium.webdriver.support.select import Select
 
 load_dotenv()
 
@@ -435,8 +436,59 @@ def login_mf():
     )
 
 
-def add_mf_record(dt: datetime, amount: int, store: str, store_info: dict | None):
-    """カンタン入力フォームに日付・金額・内容のみ入力し保存。分類はそのまま、支出元はなし。"""
+def _amount_field_value(driver) -> str:
+    """カンタン入力の金額欄の現在値を返す。"""
+    return driver.execute_script(
+        "var el = document.querySelector("
+        "  'input[placeholder=\"金額を入力してください\"]'"
+        ");"
+        "return el ? (el.value || '') : '';"
+    ) or ""
+
+
+def _select_expense_source(
+    driver,
+    preferred: str = "ANA Pay",
+    fallback: str = "なし",
+) -> str:
+    """カンタン入力の支出元を選択。preferred が無ければ fallback。戻り値は選んだ表示名。"""
+    select_el = driver.find_element("id", "user_asset_act_sub_account_id_hash")
+    sel = Select(select_el)
+
+    def find_option(prefix: str):
+        for opt in sel.options:
+            label = (opt.text or "").strip()
+            if label.startswith(prefix):
+                return opt.get_attribute("value"), label
+        return None, None
+
+    value, label = find_option(preferred)
+    if value is None:
+        value, label = find_option(fallback)
+        if value is None:
+            raise RuntimeError(
+                f"支出元に '{preferred}' も '{fallback}' も見つかりません"
+            )
+        logging.warning(
+            "支出元 '%s' がないため '%s' にフォールバック", preferred, label
+        )
+
+    sel.select_by_value(value)
+    return label
+
+
+def add_mf_record(
+    dt: datetime,
+    amount: int,
+    store: str,
+    store_info: dict | None,
+    *,
+    expense_source: str = "ANA Pay",
+):
+    """カンタン入力フォームに日付・金額・内容を入力し保存。
+
+    支出元は expense_source（デフォルト ANA Pay）。無ければ「なし」へフォールバック。
+    """
     # カンタン入力フォームが表示されていることを確認
     helium.wait_until(helium.TextField("金額を入力してください").exists, timeout_secs=10)
     # 日付: hidden と表示用 label を JS で設定（カレンダーウィジェットのため）
@@ -453,25 +505,57 @@ def add_mf_record(dt: datetime, amount: int, store: str, store_info: dict | None
     )
     # 金額（placeholder「金額を入力してください」の input）
     helium.write(str(amount), into="金額を入力してください")
-    # 支出元: なし
-    helium.select(helium.ComboBox("支出元"), "なし")
+    # 支出元
+    source = _select_expense_source(driver, preferred=expense_source)
     # 内容（placeholder「内容を入力してください(任意)」の input）
     helium.write(store, into="内容を入力してください(任意)")
-    # 保存する
-    helium.click(helium.Button("保存する"))
-    logging.info("Record added to moneyforward: %s, %s, %s",
-                 date_str, amount, store)
-    time.sleep(0.5)
+
+    # 保存する（ID 指定。文言マッチだと別要素を掴むことがある）
+    submit = driver.find_element(
+        "id", "js-cf-manual-payment-entry-submit-button"
+    )
+    submit.click()
+
+    def save_confirmed():
+        # 保存成功後は金額欄がクリアされる想定。失敗時は入力値が残る。
+        return _amount_field_value(driver) == ""
+
+    try:
+        helium.wait_until(save_confirmed, timeout_secs=10)
+    except Exception as exc:
+        raise RuntimeError(
+            f"MF save not confirmed for {date_str}, {amount}, {store}"
+        ) from exc
+
+    logging.info(
+        "Record added to moneyforward: %s, %s, %s (支出元=%s)",
+        date_str,
+        amount,
+        store,
+        source,
+    )
+    time.sleep(0.3)
 
 
-def spreadsheet2mf(worksheet, store_dict: dict[str, dict[str, str]]) -> None:
-    """スプレッドシートからmoneyforwardに書き込む"""
+def spreadsheet2mf(
+    worksheet,
+    store_dict: dict[str, dict[str, str]],
+    limit: int | None = None,
+) -> None:
+    """スプレッドシートからmoneyforwardに書き込む。
+
+    limit: 処理する未登録件数の上限（検証用）。None なら全件。
+    """
 
     records = worksheet.get_all_records()
 
     login_mf()
     added = 0
     for count, record in enumerate(records):
+        if limit is not None and added >= limit:
+            logging.info("Reached limit=%d, stopping", limit)
+            break
+
         # 'mf' 列がない／空の場合でも KeyError にならないようにしつつ、
         # 'done' 以外を「未処理」とみなす
         mf_status = (record.get("mf") or "").lower()
@@ -500,7 +584,16 @@ def spreadsheet2mf(worksheet, store_dict: dict[str, dict[str, str]]) -> None:
             logging.warning("Failed to parse amount '%s': %s", amount_text, e)
             continue
 
-        add_mf_record(date_of_use, amount, store, store_dict.get(store))
+        try:
+            add_mf_record(date_of_use, amount, store, store_dict.get(store))
+        except RuntimeError as e:
+            logging.error("%s", e)
+            logging.error(
+                "Stop without marking spreadsheet done "
+                "(row %d). Fix UI/save then retry.",
+                count + 2,
+            )
+            break
 
         # 先頭行がヘッダなので +2
         update_cell_with_retry(worksheet, count + 2, 5, "done")
@@ -521,6 +614,12 @@ def parse_args():
         choices=["mail", "mf", "all"],
         default=os.getenv("ANAPAY2MF_MODE", "all"),
         help="mail=メール→スプシ, mf=スプシ→MF (default), all=両方。環境変数 ANAPAY2MF_MODE でも指定可",
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="mf/all 時に処理する未登録件数の上限（検証用）",
     )
     return parser.parse_args()
 
@@ -547,8 +646,8 @@ def main():
     if args.mode in ("mf", "all"):
         store_sheet = sheet.worksheet("ANAPayStore")
         store_dict = {store["store"]                      : store for store in store_sheet.get_all_records()}
-        logging.info("Running spreadsheet2mf")
-        spreadsheet2mf(anapay_sheet, store_dict)
+        logging.info("Running spreadsheet2mf (limit=%s)", args.limit)
+        spreadsheet2mf(anapay_sheet, store_dict, limit=args.limit)
 
 
 if __name__ == "__main__":
